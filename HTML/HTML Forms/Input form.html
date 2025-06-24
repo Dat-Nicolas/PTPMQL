@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>The input form attribute</h1>
+<p>Thuộc tính form chỉ định dạng mà phần tử đầu vào thuộc về.</p>
+<form action="/action_page.php" id="form1">
+  <label for="fname">Họ và tên đệm:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <input type="submit" value="Submit">
+</form>
+<p>Trường "Họ" bên dưới nằm ngoài phần tử biểu mẫu nhưng vẫn là một phần của biểu mẫu.</p>
+<label for="lname">Tên:</label>
+<input type="text" id="lname" name="lname" form="form1">
+
+<h1>The input formaction attribute</h1>
+<p>Thuộc tính formaction chỉ định URL của tệp sẽ xử lý dữ liệu đầu vào khi biểu mẫu được gửi.</p>
+<form action="/action_page.php">
+  <label for="fname">Họ và tên đệm:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">Tên:</label>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="submit" value="Submit">
+  <input type="submit" formaction="/action_page2.php" value="Submit as Admin">
+</form>
+
+<h1>The input formenctype attribute</h1>
+<p>Thuộc tính formenctype chỉ định cách dữ liệu biểu mẫu sẽ được mã hóa khi được gửi.</p>
+<form action="/action_page_binary.asp" method="post">
+  <label for="name">Họ và tên:</label>
+  <input type="text" id="name" name="name"><br><br>
+  <input type="submit" value="Submit">
+  <input type="submit" formenctype="multipart/form-data" value="Submit as Multipart/form-data">
+</form>
+
+<h1>The input formmethod Attribute</h1>
+<p>Thuộc tính formmethod định nghĩa phương thức HTTP để gửi dữ liệu biểu mẫu đến URL hành động.</p>
+<form action="/action_page.php" method="get" target="_blank">
+  <label for="fname">Họ và tên đệm:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">Tên:</label>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="submit" value="Submit using GET">
+  <input type="submit" formmethod="post" value="Submit using POST">
+</form>
+
+<h1>The input formtarget attribute</h1>
+<p>Thuộc tính formtarget chỉ định tên hoặc từ khóa cho biết nơi hiển thị phản hồi nhận được sau khi gửi biểu mẫu.</p>
+<form action="/action_page.php">
+  <label for="fname">Họ và tên đệm:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">Tên:</label>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="submit" value="Submit">
+  <input type="submit" formtarget="_blank" value="Submit to a new window/tab">
+</form>
+
+<h1>The input formnovalidate attribute</h1>
+<form action="/action_page.php">
+  <label for="email">Nhập email của bạn:</label>
+  <input type="email" id="email" name="email" required><br><br>
+  <input type="submit" value="Submit">
+  <input type="submit" formnovalidate="formnovalidate" value="Submit without validation">
+</form>
+
+<h1>The form novalidate attribute</h1>
+<p>Thuộc tính novalidate chỉ định rằng dữ liệu biểu mẫu không nên được xác thực khi gửi.</p>
+<form action="/action_page.php" novalidate>
+  <label for="email">Nhập email của bạn:</label>
+  <input type="email" id="email" name="email" required><br><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+

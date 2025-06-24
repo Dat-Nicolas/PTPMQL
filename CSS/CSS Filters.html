@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div class="w3-container">
+  <h2>Filter List</h2>
+  <p>Search for a name in the input field.</p>
+
+  <input class="w3-input w3-border w3-padding" type="text" placeholder="Search for names.." id="myInput" onkeyup="myFunction()">
+  <ul class="w3-ul w3-margin-top" id="myUL">
+    <li>Nguyễn Nhân Đạt - 2221050824</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 22</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 3</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 4</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 5</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 6</li>
+    <li>Nguyễn Nhân Đạt - 2221050824 7</li>
+  </ul>
+</div>
+
+<script>
+function myFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myUL");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    txtValue = li[i].textContent || li[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+<div class="w3-container">
+    <h2>Filter Dropdown Hover</h2>
+    <p>Mouse-over the dropdown and search for a specific link inside the input field.</p>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button w3-black">Dropdown</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card w3-light-grey" id="myDIV">
+        <input class="w3-input w3-padding" type="text" placeholder="Search.." id="myInput1" onkeyup="myFunction2()">
+        <a class="w3-bar-item w3-button" href="#about">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#base">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#blog">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#contact">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#custom">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#support">Nguyễn Nhân Đạt - 2221050824</a>
+        <a class="w3-bar-item w3-button" href="#tools">Nguyễn Nhân Đạt - 2221050824</a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+  // Filter
+  function myFunction2() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput1");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDIV");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+  </script>
+</body>
+</html>

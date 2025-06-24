@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+<div class="w3-container">
+
+<h2>Nguyễn Nhân Đạt - 2221050824 </h2>
+<p>Nguyễn Nhân Đạt - 2221050824.</p>
+  
+<div class="w3-light-grey">
+  <div class="w3-container w3-green w3-center" style="width:25%">25%</div>
+</div><br>
+
+<div class="w3-light-grey">
+  <div class="w3-container w3-red w3-center" style="width:50%">50%</div>
+</div><br>
+
+<div class="w3-light-grey">
+  <div class="w3-container w3-blue" style="width:75%">75%</div>
+</div><br>
+
+<div class="w3-light-grey w3-round">
+    <div class="w3-container w3-blue w3-round" style="width:25%">25%</div>
+  </div><br>
+
+  <div class="w3-light-grey w3-round-large">
+    <div class="w3-container w3-blue w3-round-large" style="width:25%">25%</div>
+  </div><br>
+
+  <div class="w3-light-grey w3-round-xlarge">
+    <div class="w3-container w3-blue w3-round-xlarge" style="width:25%">25%</div>
+  </div>
+  <br>
+
+  <div class="w3-light-grey">
+    <div id="myBar" class="w3-container w3-green" style="height:24px;width:1%"></div>
+  </div>
+  <button class="w3-button w3-light-grey" onclick="move()">Click Me</button><br>
+  <script>
+  function move() {
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+      } else {
+        width++;
+        elem.style.width = width + '%';
+      }
+    }
+  }
+  </script>
+<br>
+
+<div class="w3-light-grey ">
+  <div id="myBar1" class="w3-container w3-green w3-center" style="width:20%">20%</div>
+</div>
+<button class="w3-button w3-green" onclick="move1()">Click Me</button> 
+</div>
+<script>
+function move1() {
+  var elem = document.getElementById("myBar1");   
+  var width = 20;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width++; 
+      elem.style.width = width + '%'; 
+      elem.innerHTML = width * 1  + '%';
+    }
+  }
+}
+</script>
+<br>
+
+<div class="w3-light-grey">
+    <div id="myBar2" class="w3-container w3-green" style="height:24px;width:0%">
+    </div>
+  </div>
+<p id="myP">Added <span id="demo">0</span> of 10 photos</p>
+<button class="w3-button w3-light-grey" onclick="move2();this.disabled='true'">Upload Photos</button> 
+</div>
+<script>
+function move2() {
+var elem = document.getElementById("myBar2");   
+var width = 0;
+var id = setInterval(frame, 50);
+function frame() {
+  if (width >= 100) {
+    clearInterval(id);
+    document.getElementById("myP").className = "w3-text-green w3-animate-opacity";
+    document.getElementById("myP").innerHTML = "Successfully uploaded 10 photos!";
+  } else {
+    width++; 
+    elem.style.width = width + '%'; 
+    var num = width * 1 / 10;
+    num = num.toFixed(0)
+    document.getElementById("demo").innerHTML = num;
+  }
+}
+}
+</script>
+
+</div>
+</body>
+</html>

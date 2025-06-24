@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Text field</h2>
+<p>The <strong>input type="text"</strong> defines a one-line text input field:</p>
+<form action="/action_page.php">
+  <label for="fname">Họ tên:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <label for="lname">MSV:</label><br>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<h2>Password field</h2>
+<p>The <strong>input type="password"</strong> defines a password field:</p>
+<form action="/action_page.php">
+  <label for="username">Username:</label><br>
+  <input type="text" id="username" name="username"><br>
+  <label for="pwd">Password:</label><br>
+  <input type="password" id="pwd" name="pwd"><br><br>
+  <input type="submit" value="Submit">
+</form>
+<p>If you click "Submit", the form-data will be sent to a page called "/action_page.php".</p>
+
+<h2>Reset Button</h2>
+<p>The <strong>input type="reset"</strong> defines a reset button that resets all form values to their default values:</p>
+<form action="/action_page.php">
+  <label for="fname">Full name</label><br>
+  <input type="text" id="fname" name="fname" ><br>
+  <label for="lname">MSV:</label><br>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="submit" value="Submit">
+  <input type="reset" value="Reset">
+</form> 
+
+<p>If you change the input values and then click the "Reset" button, the form-data will be reset to the default values.</p>
+<h2>Show a Color Picker</h2>
+<p>The <strong>input type="color"</strong> is used for input fields that should contain a color.</p>
+<form action="/action_page.php">
+  <label for="favcolor">Select your favorite color:</label>
+  <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+  <input type="submit" value="Submit">
+</form>
+
+<p><b>Note:</b> type="color" is not supported in Internet Explorer 11.</p>
+<h2>Date Field</h2>
+<p>The <strong>input type="date"</strong> is used for input fields that should contain a date.</p>
+<form action="/action_page.php">
+  <label for="birthday">Birthday:</label>
+  <input type="date" id="birthday" name="birthday">
+  <input type="submit" value="Submit">
+</form>
+
+<p><strong>Note:</strong> type="date" is not supported in Internet Explorer 11.</p>
+<h2>Local Date Field</h2>
+<p>The <strong>input type="datetime-local"</strong> specifies a date and time input field, with no time zone.</p>
+<form action="/action_page.php">
+  <label for="birthdaytime">Birthday (date and time):</label>
+  <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+  <input type="submit" value="Submit">
+</form>
+
+<p><strong>Note:</strong> type="datetime-local" is not supported in Internet Explorer 11.</p>
+<h2>Display an Image as the Submit button</h2>
+<form action="/action_page.php">
+  <label for="fname">Full name: </label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">MSV: </label>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="image" src="img_submit.gif" alt="Submit" width="48" height="48">
+</form>
+
+<h2>Month Field</h2>
+<p>The <strong>input type="month"</strong> allows the user to select a month and year.</p>
+<form action="/action_page.php">
+  <label for="bdaymonth">Birthday (month and year):</label>
+  <input type="month" id="bdaymonth" name="bdaymonth">
+  <input type="submit" value="Submit">
+</form>
+<p><strong>Note:</strong> type="month" is not supported in Firefox, Safari, or Internet Explorer 11.</p>
+
+<h2>Number Field</h2>
+<p>The <strong>input type="number"</strong> defines a numeric input field.</p>
+<p>You can use the min and max attributes to add numeric restrictions in the input field:</p>
+<form action="/action_page.php">
+  <label for="quantity">Quantity (từ 1 đến 5 ):</label>
+  <input type="number" id="quantity" name="quantity" min="1" max="5">
+  <input type="submit" value="Submit">
+</form>
+
+<h2>Numeric Steps</h2>
+<p>Tùy thuộc vào khả năng hỗ trợ của trình duyệt: Các bước cố định sẽ được áp dụng trong trường nhập liệu</p>
+<form action="/action_page.php">
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" min="0" max="100" step="10" value="30">
+  <input type="submit" value="Submit">
+</form>
+
+<h2>Range Field</h2>
+<p>Depending on browser support: The input type "range" can be displayed as a slider control.</p>
+<form action="/action_page.php" method="get">
+  <label for="vol">Volume (giá trị từ 0 đến 50 ):</label>
+  <input type="range" id="vol" name="vol" min="0" max="50">
+  <input type="submit" value="Submit">
+</form>
+
+<h2>Search Field</h2>
+<p>The <strong>input type="Tièm kiếm "</strong> is used for search fields (behaves like a regular text field):</p>
+<form action="/action_page.php">
+  <label for="gsearch">Tìm kiếm </label>
+  <input type="search" id="gsearch" name="gsearch">
+  <input type="submit" value="Submit">
+</form>
+
+<h2>Telephone Field</h2>
+<p>The <strong>input type="tel"</strong> is used for input fields that should contain a telephone number:</p>
+<p>Kiểu nhập = "tel" được sử dụng cho các trường nhập liệu có chứa số điện thoại:</p>
+<form action="/action_page.php">
+  <label for="phone">Enter a phone number:</label><br><br>
+  <input type="tel" id="phone" name="phone" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required><br><br>
+  <small>Định dạng : 123-45-678</small><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<h1>Show a Time Input Control</h1>
+<p>The <strong>input type="time"</strong> allows the user to select a time (no time zone):</p>
+<p>Nếu trình duyệt hỗ trợ, trình chọn thời gian sẽ bật lên khi nhập vào trường nhập liệu.</p>
+<form action="/action_page.php">
+  <label for="appt">Chọn thời gian:</label>
+  <input type="time" id="appt" name="appt">
+  <input type="submit" value="Submit">
+</form>
+
+<h1>Display a URL Input Field</h1>
+<p>The <strong>input type="url"</strong> is used for input fields that should contain a URL address:</p>
+<form action="/action_page.php">
+  <label for="homepage">Add your homepage:</label>
+  <input type="url" id="homepage" name="homepage">
+  <input type="submit" value="Submit">
+</form>
+
+<h1>Display a Week Input Control</h1>
+<p>The <strong>input type="week"</strong> allows the user to select a week and year.</p>
+<p>If the browser supports it, a date picker pops up when entering the input field.</p>
+<form action="/action_page.php">
+  <label for="week">Select a week:</label>
+  <input type="week" id="week" name="week">
+  <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
+
