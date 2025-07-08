@@ -1,4 +1,4 @@
-namespace StudentApi.Models
+namespace be.Models
 {
     public class StudentInfo
     {

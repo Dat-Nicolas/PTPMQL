@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using StudentApi.Models;
-namespace StudentApi.Controllers
+using be.Models;
+namespace be.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
