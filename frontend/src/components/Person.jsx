@@ -6,156 +6,150 @@ function Person() {
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [persons, setPersons] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    getAllPerson();
+    getAllPersons();
   }, []);
 
-  async function getAllPerson() {
+  async function getAllPersons() {
     try {
       const res = await axios.get("http://localhost:5000/api/Person");
       setPersons(res.data);
     } catch (err) {
-      console.error("Lỗi khi lấy danh sách người:", err);
+      console.error("Lỗi khi lấy danh sách Person:", err);
     }
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    if (!personId.trim() || !fullName.trim() || !address.trim()) {
+    if (!fullName.trim() || !address.trim()) {
       alert("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
 
     try {
-      // Nếu đã có personId trong danh sách thì gọi PUT để cập nhật
-      const existing = persons.find((p) => p.personId === personId);
-
-      if (existing) {
+      if (isEditing) {
         await axios.put(`http://localhost:5000/api/Person/${personId}`, {
-          personId,
           fullName,
           address,
         });
       } else {
-        await axios.post("http://localhost:5000/api/Person", {
-          personId,
+        const res = await axios.post("http://localhost:5000/api/Person", {
           fullName,
           address,
         });
+        setPersonId(res.data.personId); // lấy PersonId từ phản hồi
       }
-
-      await getAllPerson();
       clearForm();
+      getAllPersons();
     } catch (err) {
-      console.error("Lỗi khi xử lý:", err);
+      console.error("Lỗi khi lưu Person:", err);
     }
   }
 
-  function fillForm(p) {
+  function handleEdit(p) {
     setPersonId(p.personId);
     setFullName(p.fullName);
     setAddress(p.address);
+    setIsEditing(true);
+  }
+
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`http://localhost:5000/api/Person/${id}`);
+      getAllPersons();
+    } catch (err) {
+      console.error("Lỗi khi xoá:", err);
+    }
   }
 
   function clearForm() {
     setPersonId("");
     setFullName("");
     setAddress("");
-  }
-
-  async function deletePerson(id) {
-    if (!window.confirm("Bạn có chắc muốn xoá không?")) return;
-    try {
-      await axios.delete(`http://localhost:5000/api/Person/${id}`);
-      await getAllPerson();
-    } catch (err) {
-      console.error("Lỗi khi xoá:", err);
-    }
+    setIsEditing(false);
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-md mt-10">
-      <h1 className="text-2xl font-bold mb-4 text-center">
-        {persons.find((p) => p.personId === personId)
-          ? "Cập nhật Person"
-          : "Tạo mới Person"}
-      </h1>
+    <div className="p-10 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold text-center mb-8">Danh sách Person</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 mb-6">
         <input
           type="text"
-          placeholder="Person ID"
+          className="border p-2 rounded bg-gray-100"
+          placeholder="PersonID"
           value={personId}
-          onChange={(e) => setPersonId(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-300"
+          readOnly
         />
         <input
           type="text"
+          className="border p-2 rounded"
           placeholder="Full Name"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-300"
         />
         <input
           type="text"
+          className="border p-2 rounded"
           placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-300"
         />
-
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <button
             type="submit"
-            className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+            className={`${
+              isEditing ? "bg-yellow-500" : "bg-green-600"
+            } text-white px-4 py-2 rounded`}
           >
-            {persons.find((p) => p.personId === personId)
-              ? "Cập nhật"
-              : "Tạo mới"}
+            {isEditing ? "Update" : "Create"}
           </button>
           <button
             type="button"
             onClick={clearForm}
-            className="flex-1 bg-gray-300 text-black py-2 rounded-md hover:bg-gray-400"
+            className="bg-gray-500 text-white px-4 py-2 rounded"
           >
-            Xoá form
+            Clear
           </button>
         </div>
       </form>
 
-      <hr className="my-6" />
-
-      <h2 className="text-xl font-semibold mb-3">Danh sách Person</h2>
-      <ul className="space-y-3">
-        {persons.map((p) => (
-          <li
-            key={p.personId}
-            className="flex justify-between items-center bg-gray-100 p-3 rounded-md"
-          >
-            <div>
-              <p className="font-bold">{p.fullName}</p>
-              <p>{p.address}</p>
-              <p className="text-xs text-gray-500">ID: {p.personId}</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => fillForm(p)}
-                className="text-blue-500 hover:text-blue-700 font-semibold"
-              >
-                Sửa
-              </button>
-              <button
-                onClick={() => deletePerson(p.personId)}
-                className="text-red-500 hover:text-red-700 font-semibold"
-              >
-                Xoá
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <table className="table-auto w-full border">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="border px-4 py-2">Person ID</th>
+            <th className="border px-4 py-2">Full Name</th>
+            <th className="border px-4 py-2">Address</th>
+            <th className="border px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {persons.map((p) => (
+            <tr key={p.personId} className="text-center">
+              <td className="border px-4 py-2 font-semibold">{p.personId}</td>
+              <td className="border px-4 py-2">{p.fullName}</td>
+              <td className="border px-4 py-2">{p.address}</td>
+              <td className="border px-4 py-2">
+                <button
+                  className="bg-yellow-400 px-3 py-1 rounded mr-2"
+                  onClick={() => handleEdit(p)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                  onClick={() => handleDelete(p.personId)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
