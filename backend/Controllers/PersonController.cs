@@ -46,6 +46,26 @@ public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
     return Ok(persons);
 }
 
+[HttpGet("next-id")]
+public async Task<ActionResult<string>> GetNextPersonId()
+{
+    var lastPerson = await _context.Persons
+        .OrderByDescending(p => p.PersonId)
+        .FirstOrDefaultAsync();
+
+    string nextId = "PS001";
+
+    if (lastPerson != null)
+    {
+        string lastId = lastPerson.PersonId.Replace("PS", "");
+        int number = int.Parse(lastId) + 1;
+        nextId = "PS" + number.ToString("D3");
+    }
+
+    return Ok(nextId);
+}
+
+
 
         // GET: api/Persons/5 lấy thông tin Person theo PersonId
         [HttpGet("{PersonId}")]
