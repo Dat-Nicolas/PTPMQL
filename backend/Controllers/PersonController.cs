@@ -15,55 +15,66 @@ namespace be.Controllers
         {
             _context = context;
         }
-
-        // POST: api/Persons tạo mới Person
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person Person)
+        public async Task<ActionResult<Person>> PostPerson(Person person)
         {
-            // thiếu kiểm tra điều khiện ////////////////////////////////////////////////////////////////////////////
-            _context.Persons.Add(Person);
-                await _context.SaveChangesAsync();
+            var lastPerson = await _context.Persons
+                .OrderByDescending(p => p.PersonId)
+                .FirstOrDefaultAsync();
 
-            return CreatedAtAction(nameof(GetPerson), new { PersonId = Person.PersonId }, Person);
+            var generator = new AutoGenerateCode();
+            var nextId = generator.GenerateCode(lastPerson?.PersonId);
+
+            while (await _context.Persons.AnyAsync(p => p.PersonId == nextId))
+            {
+                nextId = generator.GenerateCode(nextId);
+            }
+
+            person.PersonId = nextId;
+            _context.Persons.Add(person);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetPerson), new { PersonId = person.PersonId }, person);
         }
 
+
         // GET: api/Persons  lấy danh sách Person
-       [HttpGet]
-public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
-{
-    if (_context.Persons == null)
-    {
-        return NotFound("Bảng Person chưa được khởi tạo.");
-    }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
+        {
+            if (_context.Persons == null)
+            {
+                return NotFound("Bảng Person chưa được khởi tạo.");
+            }
 
-    var persons = await _context.Persons.ToListAsync();
+            var persons = await _context.Persons.ToListAsync();
 
-    if (persons == null || persons.Count == 0)
-    {
-        return NotFound("Chưa có người dùng nào.");
-    }
+            if (persons == null || persons.Count == 0)
+            {
+                return NotFound("Chưa có người dùng nào.");
+            }
 
-    return Ok(persons);
-}
+            return Ok(persons);
+        }
 
-[HttpGet("next-id")]
-public async Task<ActionResult<string>> GetNextPersonId()
-{
-    var lastPerson = await _context.Persons
-        .OrderByDescending(p => p.PersonId)
-        .FirstOrDefaultAsync();
+        [HttpGet("next-id")]
+        public async Task<ActionResult<string>> GetNextPersonId()
+        {
+            var lastPerson = await _context.Persons
+                .OrderByDescending(p => p.PersonId)
+                .FirstOrDefaultAsync();
 
-    string nextId = "PS001";
+            string nextId = "PS001";
 
-    if (lastPerson != null)
-    {
-        string lastId = lastPerson.PersonId.Replace("PS", "");
-        int number = int.Parse(lastId) + 1;
-        nextId = "PS" + number.ToString("D3");
-    }
+            if (lastPerson != null)
+            {
+                string lastId = lastPerson.PersonId.Replace("PS", "");
+                int number = int.Parse(lastId) + 1;
+                nextId = "PS" + number.ToString("D3");
+            }
 
-    return Ok(nextId);
-}
+            return Ok(nextId);
+        }
 
 
 

@@ -32,11 +32,13 @@ function Person() {
     try {
       if (isEditing) {
         await axios.put(`http://localhost:5000/api/Person/${personId}`, {
+          personId,
           fullName,
           address,
         });
       } else {
         const res = await axios.post("http://localhost:5000/api/Person", {
+          personId, 
           fullName,
           address,
         });
@@ -57,13 +59,17 @@ function Person() {
   }
 
   async function handleDelete(id) {
-    try {
-      await axios.delete(`http://localhost:5000/api/Person/${id}`);
-      getAllPersons();
-    } catch (err) {
-      console.error("Lỗi khi xoá:", err);
-    }
+  if (!confirm("Bạn có chắc muốn xóa bản ghi này?")) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/api/Person/${id}`);
+    alert("Xóa bản ghi thành công!");
+    getAllPersons();
+  } catch (err) {
+    console.error("Lỗi khi xóa:", err);
+    alert("Lỗi khi xóa bản ghi: " + err.message);
   }
+}
 
   function clearForm() {
     setPersonId("");
