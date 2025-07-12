@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+using System.Text.Json.Serialization;
 namespace be.Models
 {
     public class HeThongPhanPhoi
@@ -9,6 +9,7 @@ namespace be.Models
 
         public string? TenHTPP { get; set; }
 
-        public List<Daily>? Dailys { get; set; } // navigation
+        [JsonIgnore]
+        public List<Daily>? Dailys { get; set; } 
     }
 }

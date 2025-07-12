@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using be.Models;
 using be.Data;
+using be.Utils;
+
 
 namespace be.Controllers
 {
@@ -16,27 +18,18 @@ namespace be.Controllers
             _context = context;
         }
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        public async Task<IActionResult> CreatePerson([FromBody] Person info)
         {
-            var lastPerson = await _context.Persons
-                .OrderByDescending(p => p.PersonId)
-                .FirstOrDefaultAsync();
-
+            var lastPerson = await _context.Persons.OrderByDescending(p => p.PersonId).FirstOrDefaultAsync();
+            string lastId = lastPerson?.PersonId;
             var generator = new AutoGenerateCode();
-            var nextId = generator.GenerateCode(lastPerson?.PersonId);
+            info.PersonId = generator.GenerateCode(lastId, "PS");
 
-            while (await _context.Persons.AnyAsync(p => p.PersonId == nextId))
-            {
-                nextId = generator.GenerateCode(nextId);
-            }
-
-            person.PersonId = nextId;
-            _context.Persons.Add(person);
+            _context.Persons.Add(info);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPerson), new { PersonId = person.PersonId }, person);
+            return Ok(info);
         }
-
 
         // GET: api/Persons  lấy danh sách Person
         [HttpGet]

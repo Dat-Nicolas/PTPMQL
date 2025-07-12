@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using be.Models;
 using be.Data;
+using be.Utils;
+
 namespace be.Controllers
 {
     [ApiController]
@@ -15,18 +17,24 @@ namespace be.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDaily([FromBody] Daily daily)
-        {
-            if (daily == null)
-            {
-                return BadRequest("Invalid daily data.");
-            }
 
-            _context.Dailies.Add(daily);
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDaily([FromBody] Daily info)
+        {
+            var lastDaily = await _context.Dailies.OrderByDescending(p => p.MaDaily).FirstOrDefaultAsync();
+            string lastId = lastDaily?.MaDaily;
+            var generator = new AutoGenerateCode();
+            info.MaDaily = generator.GenerateCode(lastId, "DL");
+
+            _context.Dailies.Add(info);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetDailies), new { id = daily.Id }, daily);
+
+            return Ok(info);
         }
+
+
+
         [HttpGet]
         public async Task<IActionResult> GetDailies()
         {
@@ -34,32 +42,48 @@ namespace be.Controllers
             return Ok(dailies);
         }
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDaily(int id, [FromBody] Daily daily)
         {
             if (id != daily.Id)
             {
-                return BadRequest("Daily ID mismatch.");
+                return BadRequest("ID không khớp.");
             }
 
             _context.Entry(daily).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Dailies.Any(e => e.Id == id))
+                {
+                    return NotFound("Không tìm thấy Daily.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return NoContent();
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDaily(int id)
         {
             var daily = await _context.Dailies.FindAsync(id);
             if (daily == null)
             {
-                return NotFound("Daily not found.");
+                return NotFound("Không tìm thấy Daily để xóa.");
             }
 
             _context.Dailies.Remove(daily);
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
-
     }
 }
