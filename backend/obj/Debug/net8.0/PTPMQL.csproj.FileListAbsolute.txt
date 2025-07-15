@@ -602,3 +602,11 @@ C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\obj\Debug\net8.0\refint\PTPMQL.d
 C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\obj\Debug\net8.0\PTPMQL.pdb
 C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\obj\Debug\net8.0\PTPMQL.genruntimeconfig.cache
 C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\obj\Debug\net8.0\ref\PTPMQL.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\EPPlus.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\LEGION\OneDrive\Desktop\PTPMQL\backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using be.Models;
 using Microsoft.EntityFrameworkCore;
-using be.Utils;
+using be.Data;
+using be.Models;
 
 namespace be.Controllers
 {
@@ -9,56 +9,73 @@ namespace be.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult PostEmployeeInfo([FromBody] Employee info)
-        {
-            return Ok(new
-            {
-                message = "Dữ liệu đã nhận thành công",
-                data = info
-            });
-        }
-        [HttpGet]
-        public IActionResult GetEmployeeInfo()
-        {
-            var employee = new Employee
-            {
-                Id = 1,
-                Name = "John Doe",
-                Position = "Software Engineer"
-            };
+        private readonly AppDbContext _context;
 
-            return Ok(new
-            {
-                message = "Dữ liệu đã lấy thành công",
-                data = employee
-            });
+        public EmployeeController(AppDbContext context)
+        {
+            _context = context;
         }
+
+        // GET: api/Employee
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var employees = await _context.Employees.ToListAsync();
+            return Ok(employees);
+        }
+
+        // GET: api/Employee/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null) return NotFound();
+            return Ok(employee);
+        }
+
+        // POST: api/Employee
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Employee info)
+        {
+            _context.Employees.Add(info);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new { id = info.Id }, info);
+        }
+
+        // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public IActionResult UpdateEmployeeInfo(int id, [FromBody] Employee info)
+        public async Task<IActionResult> Update(int id, [FromBody] Employee info)
         {
             if (id != info.Id)
-            {
                 return BadRequest(new { message = "ID không khớp" });
+
+            _context.Entry(info).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(info);
             }
-
-
-            return Ok(new
+            catch (DbUpdateConcurrencyException)
             {
-                message = "Dữ liệu đã cập nhật thành công",
-                data = info
-            });
+                if (!await _context.Employees.AnyAsync(e => e.Id == id))
+                    return NotFound();
+                else
+                    throw;
+            }
         }
+
+        // DELETE: api/Employee/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteEmployeeInfo(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null) return NotFound();
 
-            return Ok(new
-            {
-                message = "Dữ liệu đã xóa thành công",
-                id = id
-            });
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Đã xóa thành công", id });
         }
-    
     }
 }

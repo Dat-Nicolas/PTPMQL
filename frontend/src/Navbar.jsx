@@ -9,13 +9,15 @@ function Navbar() {
     { to: "/student", label: "Sinh viên", icon: <FaGraduationCap /> },
     { to: "/hethongphanphoi", label: "Hệ thống phân phối", icon: <FaSitemap /> },
     { to: "/daily", label: "Đại lý", icon: <FaStore /> },
+    { to: "/employee", label: "Công nhân", icon: <FaStore /> },
+
   ];
 
   return (
     <div className="w-64 h-screen bg-gradient-to-b from-purple-800 to-indigo-900 text-white flex flex-col p-6 shadow-lg">
-      <h2 className="text-2xl font-extrabold mb-8 text-center tracking-wide">
+      <Link to={"/"} className="text-2xl font-extrabold mb-8 text-center tracking-wide">
         🚀 PTPMQL App
-      </h2>
+      </Link>
       <nav className="flex flex-col gap-4">
         {navItems.map((item) => (
           <Link

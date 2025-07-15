@@ -5,6 +5,7 @@ import Student from "./components/Student";
 import HeThongPhanPhoi from "./components/HeThongPhanPhoi";
 import Daily from "./components/Daily";
 import Home from "./components/Home";
+import Employee from "./components/Employee";
 function App() {
   return (
     <Router>
@@ -17,6 +18,8 @@ function App() {
             <Route path="/student" element={<Student />} />
             <Route path="/hethongphanphoi" element={<HeThongPhanPhoi />} />
             <Route path="/daily" element={<Daily />} />
+            <Route path="/employee" element={<Employee />} />
+
           </Routes>
         </div>
       </div>

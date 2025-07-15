@@ -38,16 +38,18 @@ function Person() {
         });
       } else {
         const res = await axios.post("http://localhost:5000/api/Person", {
-          personId, 
+          personId,
           fullName,
           address,
         });
-        setPersonId(res.data.personId); // lấy PersonId từ phản hồi
+        setPersonId(res.data.personId);
       }
+
       clearForm();
       getAllPersons();
     } catch (err) {
       console.error("Lỗi khi lưu Person:", err);
+      alert("Lỗi khi lưu Person: " + err.message);
     }
   }
 
@@ -59,17 +61,17 @@ function Person() {
   }
 
   async function handleDelete(id) {
-  if (!confirm("Bạn có chắc muốn xóa bản ghi này?")) return;
+    if (!confirm("Bạn có chắc muốn xóa bản ghi này?")) return;
 
-  try {
-    await axios.delete(`http://localhost:5000/api/Person/${id}`);
-    alert("Xóa bản ghi thành công!");
-    getAllPersons();
-  } catch (err) {
-    console.error("Lỗi khi xóa:", err);
-    alert("Lỗi khi xóa bản ghi: " + err.message);
+    try {
+      await axios.delete(`http://localhost:5000/api/Person/${id}`);
+      alert("Xóa bản ghi thành công!");
+      getAllPersons();
+    } catch (err) {
+      console.error("Lỗi khi xóa:", err);
+      alert("Lỗi khi xóa bản ghi: " + err.message);
+    }
   }
-}
 
   function clearForm() {
     setPersonId("");
@@ -78,9 +80,47 @@ function Person() {
     setIsEditing(false);
   }
 
+  // 🟢 Export Excel
+  function handleExport() {
+    window.open("http://localhost:5000/api/Person/export", "_blank");
+  }
+
+  // 🔵 Import Excel
+  async function handleImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      await axios.post("http://localhost:5000/api/Person/import", formData);
+      alert("Import thành công!");
+      getAllPersons();
+    } catch (err) {
+      console.error("Lỗi khi import:", err);
+      alert("Import thất bại: " + err.message);
+    }
+  }
+
   return (
-    <div className="p-10 max-w-4xl mx-auto">
+    <div className="p-10 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold text-center mb-8">Danh sách Person</h1>
+
+      <div className="flex gap-4 mb-6">
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleImport}
+          className="border p-2 rounded"
+        />
+        <button
+          onClick={handleExport}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Export Excel
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 mb-6">
         <input

@@ -16,6 +16,7 @@ namespace be.Data
         public DbSet<StudentInfo> StudentInfos { get; set; }
         public DbSet<Daily> Dailies { get; set; }
         public DbSet<HeThongPhanPhoi> HeThongPhanPhois { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +24,7 @@ namespace be.Data
                 .HasOne(d => d.HeThongPhanPhoi)
                 .WithMany(h => h.Dailys)
                 .HasForeignKey(d => d.MaHTPP)
-                .HasPrincipalKey(h => h.MaHTPP); 
+                .HasPrincipalKey(h => h.MaHTPP);
         }
     }
     
