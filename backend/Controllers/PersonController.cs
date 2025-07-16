@@ -33,11 +33,29 @@ namespace be.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
+        public async Task<ActionResult> GetPersons(int page = 1, int pageSize = 10)
         {
-            var persons = await _context.Persons.ToListAsync();
-            return Ok(persons);
+            if (page < 1 || pageSize < 1)
+                return BadRequest("Page và PageSize phải lớn hơn 0");
+
+            var totalItems = await _context.Persons.CountAsync();
+
+            var persons = await _context.Persons
+                .OrderBy(p => p.PersonId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                TotalItems = totalItems,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                Data = persons
+            });
         }
+
 
         [HttpGet("next-id")]
         public async Task<ActionResult<string>> GetNextPersonId()
@@ -180,6 +198,5 @@ namespace be.Controllers
 
             return Ok($"Đã import {newPersons.Count} người (ID được sinh tự động nếu trùng hoặc để trống)");
         }
-
     }
 }
