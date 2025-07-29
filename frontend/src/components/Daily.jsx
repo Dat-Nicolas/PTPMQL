@@ -8,7 +8,7 @@ function Daily() {
   const [nguoiDaiDien, setNguoiDaiDien] = useState("");
   const [dienThoai, setDienThoai] = useState("");
   const [maHTPP, setMaHTPP] = useState("");
-
+  const [TenHTPP,setTenHTPP] = useState("")
   const [dailys, setDailys] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -44,6 +44,7 @@ function Daily() {
           nguoiDaiDien,
           dienThoai,
           maHTPP,
+          TenHTPP,
         });
         alert("Cập nhật thành công!");
       } else {
@@ -53,6 +54,7 @@ function Daily() {
           nguoiDaiDien,
           dienThoai,
           maHTPP,
+          TenHTPP,
         });
         alert("Tạo thành công!");
         setDailyId(res.data.maDaily);
@@ -74,6 +76,7 @@ function Daily() {
     setNguoiDaiDien(p.nguoiDaiDien);
     setDienThoai(p.dienThoai);
     setMaHTPP(p.maHTPP);
+    setTenHTPP(p.TenHTPP);
     setIsEditing(true);
   }
 
@@ -97,6 +100,7 @@ function Daily() {
     setNguoiDaiDien("");
     setDienThoai("");
     setMaHTPP("");
+    setTenHTPP("")
     setIsEditing(false);
     setEditingId(null);
   }
@@ -148,6 +152,13 @@ function Daily() {
           onChange={(e) => setMaHTPP(e.target.value)}
           className="border p-2 rounded"
         />
+        <input
+          type="text"
+          placeholder="Tên Hệ thống phân phối"
+          value={maHTPP}
+          onChange={(e) => setTenHTPP(e.target.value)}
+          className="border p-2 rounded"
+        />
 
         <div className="col-span-2 flex gap-4 justify-center mt-4">
           <button
@@ -177,6 +188,7 @@ function Daily() {
             <th className="border px-4 py-2">Người đại diện</th>
             <th className="border px-4 py-2">Điện thoại</th>
             <th className="border px-4 py-2">Mã HTPP</th>
+            <th className="border px-4 py-2">Tên HTPP</th>
             <th className="border px-4 py-2">Thao tác</th>
           </tr>
         </thead>
@@ -189,6 +201,7 @@ function Daily() {
               <td className="border px-4 py-2">{p.nguoiDaiDien}</td>
               <td className="border px-4 py-2">{p.dienThoai}</td>
               <td className="border px-4 py-2">{p.maHTPP}</td>
+              <td className="border px-4 py-2">{p.TenHTPP}</td>
               <td className="border px-4 py-2">
                 <button
                   className="bg-yellow-400 px-3 py-1 rounded mr-2"
